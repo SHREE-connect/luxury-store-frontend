@@ -85,7 +85,24 @@
       Rich zari borders and a timeless color palette make this piece an heirloom.
     </div>
 
-    <button>Add to Cart</button>
+    <button onclick="addToCart()">Add to Cart</button>
+
+<script>
+  function addToCart() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    cart.push({
+      name: "Kanchipuram Silk Saree",
+      price: 24000,
+      image: "https://images.unsplash.com/photo-1583391733956-6c78276477e8",
+      qty: 1
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart");
+  }
+</script>
+
 
     <div class="details">
       <p><strong>Material:</strong> Pure Silk</p>
