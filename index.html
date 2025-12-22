@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Luxury Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", serif;
+      background: #faf9f7;
+      color: #1c1c1c;
+    }
+    header {
+      padding: 48px 64px;
+      text-align: center;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    header h1 {
+      font-size: 42px;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    header p {
+      font-size: 16px;
+      color: #555;
+    }
+    section {
+      padding: 64px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .collections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border: 1px solid #e5e5e5;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    .card img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin: 8px 0;
+    }
+    .card p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 16px;
+      text-decoration: none;
+      color: black;
+      border-bottom: 1px solid black;
+      padding-bottom: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 14px;
+      color: #777;
+      border-top: 1px solid #e5e5e5;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Your Brand Name</h1>
+  <p>Handcrafted Sarees · Stone & Brass Crafts · Timeless Utensils</p>
+</header>
+
+<section>
+  <div class="collections">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0" />
+      <h2>Sarees</h2>
+      <p>Woven traditions, rich textures, and stories carried through generations.</p>
+      <a href="#">View Collection</a>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1611095564985-89765398121c" />
+      <h2>Stone & Brass Crafts</h2>
+      <p>Sculpted by hand, shaped by heritage, made to endure.</p>
+      <a href="#">View Collection</a>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba6" />
+      <h2>Utensils</h2>
+      <p>Functional objects elevated through material honesty and form.</p>
+      <a href="#">View Collection</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © Your Brand Name · Crafted with care in India
+</footer>
+
+</body>
+</html>
