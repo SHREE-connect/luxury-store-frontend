@@ -51,31 +51,63 @@
 <button onclick="checkout()">Proceed to Checkout</button>
 
 <script>
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let total = 0;
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   const container = document.getElementById("cartItems");
+  const totalEl = document.getElementById("total");
 
-  cart.forEach(item => {
-    total += item.price * item.qty;
+  function renderCart() {
+    container.innerHTML = "";
+    let total = 0;
 
-    container.innerHTML += `
-      <div class="item">
-        <img src="${item.image}">
-        <div>
-          <h3>${item.name}</h3>
-          <p>₹${item.price}</p>
+    cart.forEach((item, index) => {
+      total += item.price * item.qty;
+
+      container.innerHTML += `
+        <div class="item">
+          <img src="${item.image}">
+          <div>
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+
+            <div style="margin-top:8px;">
+              <button onclick="changeQty(${index}, -1)">−</button>
+              <span style="margin:0 8px;">${item.qty}</span>
+              <button onclick="changeQty(${index}, 1)">+</button>
+            </div>
+
+            <p style="margin-top:8px;">
+              <a href="#" onclick="removeItem(${index})">Remove</a>
+            </p>
+          </div>
         </div>
-      </div>
-    `;
-  });
+      `;
+    });
 
-  document.getElementById("total").innerText = "Total: ₹" + total;
+    totalEl.innerText = "Total: ₹" + total;
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function changeQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) {
+      cart.splice(index, 1);
+    }
+    renderCart();
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    renderCart();
+  }
 
   function checkout() {
-    alert("Next step: payment & checkout");
+    window.location.href = "checkout.html";
   }
+
+  renderCart();
 </script>
+
 
   <!-- Floating Cart Icon -->
 <a href="cart.html" id="floatingCart">
