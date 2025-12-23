@@ -58,6 +58,7 @@
 
 <div class="container">
   <h1>Thank you for your order</h1>
+<p id="orderId"></p>
 
   <p>
     Your order has been placed successfully.
@@ -73,6 +74,16 @@
 
   <a href="index.html">Continue browsing</a>
 </div>
+
+  <script>
+  const orderId = localStorage.getItem("lastOrderId");
+  if (orderId) {
+    document.getElementById("orderId").innerText =
+      "Order ID: " + orderId;
+    localStorage.removeItem("lastOrderId");
+    localStorage.removeItem("cart");
+  }
+</script>
 
 </body>
 </html>
