@@ -42,7 +42,7 @@
 
 <h1>Checkout</h1>
 
-<form onsubmit="placeOrder(event)">
+<form>
   <label>Full Name
     <input id="name" required />
   </label>
@@ -63,27 +63,28 @@
     <input id="gst" />
   </label>
 
-  <button type="submit">Place Order</button>
+  <button type="button" onclick="placeOrder()">Place Order</button>
 </form>
 
 <script>
  <script>
-  async function placeOrder(e) {
-    e.preventDefault();
+  async function placeOrder() {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+    const gst = document.getElementById("gst").value || null;
+
+    if (!name || !phone || !email || !address) {
+      alert("Please fill all required fields");
+      return;
+    }
 
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     if (cart.length === 0) {
       alert("Cart is empty");
       return;
     }
-
-    const customer = {
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value,
-      email: document.getElementById("email").value,
-      address: document.getElementById("address").value,
-      gst: document.getElementById("gst").value || null
-    };
 
     let total = 0;
     cart.forEach(item => {
@@ -95,11 +96,9 @@
         "https://luxury-store-backend.onrender.com/create-order",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            customer,
+            customer: { name, phone, email, address, gst },
             cart,
             total
           })
@@ -112,17 +111,15 @@
         localStorage.setItem("lastOrderId", result.orderId);
         window.location.href = "order-confirmation.html";
       } else {
-        alert("Order creation failed");
+        alert("Order failed. Please try again.");
       }
-    } catch (error) {
-      alert("Something went wrong. Please try again.");
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Please try again.");
     }
   }
 </script>
 
-
-</script>
 
   
 </body>
