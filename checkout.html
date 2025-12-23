@@ -44,23 +44,23 @@
 
 <form onsubmit="placeOrder(event)">
   <label>Full Name
-    <input required />
+    <input id="name" required />
   </label>
 
   <label>Phone Number
-    <input required />
+    <input id="phone" required />
   </label>
 
   <label>Email
-    <input type="email" required />
+    <input id="email" type="email" required />
   </label>
 
   <label>Address
-    <input required />
+    <input id="address" required />
   </label>
 
   <label>GST Number (optional)
-    <input />
+    <input id="gst" />
   </label>
 
   <button type="submit">Place Order</button>
@@ -72,43 +72,55 @@
     e.preventDefault();
 
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
     if (cart.length === 0) {
       alert("Cart is empty");
       return;
     }
+
+    const customer = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      email: document.getElementById("email").value,
+      address: document.getElementById("address").value,
+      gst: document.getElementById("gst").value || null
+    };
 
     let total = 0;
     cart.forEach(item => {
       total += item.price * item.qty;
     });
 
-    const orderData = {
-      customer: {
-        name: document.querySelector("input[required]").value
-      },
-      cart: cart,
-      total: total
-    };
+    try {
+      const response = await fetch(
+        "https://luxury-store-backend.onrender.com/create-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            customer,
+            cart,
+            total
+          })
+        }
+      );
 
-    const response = await fetch("https://luxury-store-backend.onrender.com//create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderData)
-    });
+      const result = await response.json();
 
-    const result = await response.json();
-
-    if (result.success) {
-      localStorage.setItem("lastOrderId", result.orderId);
-      window.location.href = "order-confirmation.html";
-    } else {
-      alert("Failed to place order");
+      if (result.success) {
+        localStorage.setItem("lastOrderId", result.orderId);
+        window.location.href = "order-confirmation.html";
+      } else {
+        alert("Order creation failed");
+      }
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error(error);
     }
   }
 </script>
+
 
 </script>
 
