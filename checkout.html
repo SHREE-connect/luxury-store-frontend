@@ -67,10 +67,49 @@
 </form>
 
 <script>
-  function placeOrder(e) {
-  e.preventDefault();
-  window.location.href = "order-confirmation.html";
-}
+ <script>
+  async function placeOrder(e) {
+    e.preventDefault();
+
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (cart.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price * item.qty;
+    });
+
+    const orderData = {
+      customer: {
+        name: document.querySelector("input[required]").value
+      },
+      cart: cart,
+      total: total
+    };
+
+    const response = await fetch("https://luxury-store-backend.onrender.com//create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      localStorage.setItem("lastOrderId", result.orderId);
+      window.location.href = "order-confirmation.html";
+    } else {
+      alert("Failed to place order");
+    }
+  }
+</script>
+
 </script>
 
   
