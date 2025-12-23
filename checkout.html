@@ -63,7 +63,7 @@
     <input />
   </label>
 
-  <button type="button" onclick="payNow()">Pay Securely</button>
+  <button type="submit">Place Order</button>
 </form>
 
 <script>
@@ -73,47 +73,6 @@
 }
 </script>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<script>
-  function payNow() {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    if (cart.length === 0) {
-      alert("Cart is empty");
-      return;
-    }
-
-    let amount = 0;
-    cart.forEach(item => {
-      amount += item.price * item.qty;
-    });
-
-    const options = {
-      key: "rzp_live_Rlt3Z3ltIqhINq",
-      amount: amount * 100, // in paise
-      currency: "INR",
-      name: "Your Brand",
-      description: "Order Payment",
-      handler: function (response) {
-        alert("Payment successful!");
-        localStorage.removeItem("cart");
-        window.location.href = "index.html";
-      },
-      prefill: {
-        name: "",
-        email: "",
-        contact: ""
-      },
-      theme: {
-        color: "#000000"
-      }
-    };
-
-    const rzp = new Razorpay(options);
-    rzp.open();
-  }
-</script>
-
+  
 </body>
 </html>
